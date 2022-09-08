@@ -1,6 +1,6 @@
 {
   "name": "type-librus",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "TypeScript API for fetching data from the Librus school management solution",
   "main": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -12,7 +12,6 @@
     "typescript": "^4.8.2"
   },
   "dependencies": {
-    "cross-fetch": "^3.1.5",
     "fetch-cookie": "^2.1.0",
     "node-fetch": "^3.2.10"
   }
