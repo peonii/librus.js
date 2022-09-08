@@ -1,6 +1,6 @@
 import fetchCookie from 'fetch-cookie';
 import fetch, { RequestInit, Response } from 'node-fetch';
-import type { APIPushChanges, APISynergiaAccountsWrapper, PostAPIChangeRegister } from '../types/api-types';
+import type { APIMe, APIPushChanges, APISynergiaAccountsWrapper, LibrusAccountInfo, PostAPIChangeRegister } from '../types/api-types';
 
 interface LibrusClientRequestOptions {
     fetchOptions?: RequestInit
@@ -14,6 +14,7 @@ export default class LibrusClient {
     private appUsername: string;
     private appPassword: string;
     private cookieFetch;
+    publicInfo: LibrusAccountInfo | null
 
     constructor() {
         this.bearerToken = ""
@@ -22,6 +23,7 @@ export default class LibrusClient {
         this.appUsername = ""
         this.appPassword = ""
         this.cookieFetch = fetchCookie(fetch, new fetchCookie.toughCookie.CookieJar())
+        this.publicInfo = null
     }
 
     async login(username: string, password: string): Promise<void> {
@@ -64,13 +66,18 @@ export default class LibrusClient {
         })
         const accounts = await accountsResponse.json() as APISynergiaAccountsWrapper
         if (!accountsResponse.ok) throw new Error('Could not get the bearer token!')
-
-        if (!accounts.accounts[0]?.token || !accounts.accounts[0]?.login)
+        if (!accounts.accounts[0]?.accessToken || !accounts.accounts[0]?.login)
             throw new Error('Could not find the bearer token!')
 
-        this.bearerToken = accounts.accounts[0]?.token
+        this.bearerToken = accounts.accounts[0]?.accessToken
         this.appUsername = username
         this.appPassword = password
+
+        const sanityCheck = await this.request('https://api.librus.pl/3.0/Me') as Response
+
+        const sanityCheckJSON = (await sanityCheck.json()) as APIMe
+
+        this.publicInfo = sanityCheckJSON.Me.Account
 
         return
     }
@@ -115,7 +122,7 @@ export default class LibrusClient {
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
                 gzip: 'true',
-                Authorization: (this.bearerToken ? this.bearerToken : '')
+                Authorization: 'Bearer ' + (this.bearerToken ? this.bearerToken : '')
             },
             redirect: "manual"
         }
@@ -134,6 +141,7 @@ export default class LibrusClient {
         }
 
         let result = await this.cookieFetch(url, requestOptions)
+        const clonedResult = result.clone()
 
         if (!result.ok) {
             if (result.status === 401) {
@@ -152,7 +160,7 @@ export default class LibrusClient {
             }
         }
 
-        return result
+        return clonedResult
     }
     
     async newPushService(): Promise<number> {

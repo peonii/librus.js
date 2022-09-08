@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsup';
 
-export function createTsupConfig({
+export default function createTsupConfig({
 	entry = ['src/index.ts'],
 	external = [],
 	noExternal = [],
