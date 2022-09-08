@@ -1,9 +1,8 @@
-import { Response } from "node-fetch"
-import LibrusClient from "../client/LibrusClient"
+import { LibrusClient } from "../client/LibrusClient"
 import { APISchoolNotice, APISchoolNotices, BaseFetchOptions, SchoolNotice } from "../types/api-types"
-import BaseManager from "./baseManager"
+import { BaseManager } from "./baseManager"
 
-export default class NoticeManager extends BaseManager {
+export class NoticeManager extends BaseManager {
     cache: Map<string, SchoolNotice>
     constructor(client: LibrusClient) {
         super(client)

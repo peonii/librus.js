@@ -1,9 +1,8 @@
-import LibrusClient from "../client/LibrusClient";
+import { LibrusClient } from "../client/LibrusClient";
 import { APIUser, APIUsers, BaseFetchOptions, User } from "../types/api-types";
-import BaseManager from "./baseManager";
-import { Response } from "node-fetch";
+import { BaseManager } from "./baseManager";
 
-export default class UsersManager extends BaseManager {
+export class UsersManager extends BaseManager {
     cache: Map<number, User>
     constructor(client: LibrusClient) {
         super(client)

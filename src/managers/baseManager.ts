@@ -1,7 +1,7 @@
-import type LibrusClient from "../client/LibrusClient";
+import type { LibrusClient } from "../client/LibrusClient";
 import type { BaseFetchOptions } from "../types/api-types";
 
-export default class BaseManager {
+export class BaseManager {
     client: LibrusClient
     constructor(client: LibrusClient) {
         this.client = client

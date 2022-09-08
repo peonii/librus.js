@@ -1,13 +1,14 @@
 import fetchCookie from 'fetch-cookie';
-import fetch, { RequestInit, Response } from 'node-fetch';
+import fetch from 'cross-fetch';
 import type { APIMe, APIPushChanges, APISynergiaAccountsWrapper, LibrusAccountInfo, PostAPIChangeRegister } from '../types/api-types';
 
+
 interface LibrusClientRequestOptions {
-    fetchOptions?: RequestInit
+    fetchOptions?: RequestInit 
     response?: "text" | "json" | "raw"
 }
 
-export default class LibrusClient {
+export class LibrusClient {
     private bearerToken: string;
     pushDevice: number;
     private synergiaLogin: string;

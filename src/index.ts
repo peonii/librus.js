@@ -1,6 +1,3 @@
-import client from './client/LibrusClient'
-import managers from './managers'
-
-export default {
-    client, managers
-}
+export * from './client/index'
+export * from './managers/index'
+export * from './types/api-types'

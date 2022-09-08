@@ -1,5 +1,3 @@
-import BaseManager from "./baseManager";
-import NoticeManager from "./noticeManager";
-import UsersManager from "./usersManager";
-
-export default {BaseManager, NoticeManager, UsersManager};
+export { BaseManager } from './baseManager'
+export { UsersManager } from './usersManager'
+export { NoticeManager } from './noticeManager'
