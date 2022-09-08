@@ -1,8 +1,9 @@
 {
-  "name": "librus.js",
-  "version": "1.0.0",
+  "name": "type-librus",
+  "version": "1.0.0-working",
   "description": "TypeScript API for fetching data from the Librus school management solution",
-  "main": "index.js",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "author": "peony",
   "license": "MIT",
   "devDependencies": {
