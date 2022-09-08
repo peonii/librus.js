@@ -1,5 +1,4 @@
 import fetchCookie from 'fetch-cookie';
-import fetch from 'cross-fetch';
 import type { APIMe, APIPushChanges, APISynergiaAccountsWrapper, LibrusAccountInfo, PostAPIChangeRegister } from '../types/api-types';
 
 
@@ -23,7 +22,7 @@ export class LibrusClient {
         this.synergiaLogin = ""
         this.appUsername = ""
         this.appPassword = ""
-        this.cookieFetch = fetchCookie(fetch, new fetchCookie.toughCookie.CookieJar())
+        this.cookieFetch = fetchCookie(fetch)
         this.publicInfo = null
     }
 
@@ -212,3 +211,4 @@ export class LibrusClient {
         }
     }
 }
+

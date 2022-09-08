@@ -28,7 +28,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"lib": ["ESNext"],
+		"lib": ["ESNext", "DOM"],
 		"target": "ES2021",
 		"useDefineForClassFields": true
     },
