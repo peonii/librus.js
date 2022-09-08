@@ -1,8 +1,9 @@
 {
   "name": "type-librus",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript API for fetching data from the Librus school management solution",
-  "main": "dist/index.mjs",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "author": "peony",
   "license": "MIT",
@@ -14,5 +15,11 @@
   "dependencies": {
     "fetch-cookie": "^2.1.0",
     "node-fetch": "^3.2.10"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "directories": {
+    "lib": "src"
   }
 }
