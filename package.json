@@ -1,6 +1,6 @@
 {
   "name": "type-librus",
-  "version": "1.0.0-working",
+  "version": "1.0.0-debug",
   "description": "TypeScript API for fetching data from the Librus school management solution",
   "main": "dist/index.mjs",
   "types": "dist/index.d.ts",
