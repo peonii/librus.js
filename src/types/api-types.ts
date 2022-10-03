@@ -143,3 +143,57 @@ export interface LibrusUserClass {
 export interface APIClasses extends APIv3BaseResponse {
     Class: LibrusUserClass
 }
+
+export interface APITimetables extends APIv3BaseResponse {
+    Timetable: LibrusTimetableMap
+}
+
+export interface LibrusTimetableMap {
+    [date: string]: LibrusTimetableSlot
+}
+
+export type LibrusTimetableSlot = LibrusTimetableSlotEntry[]
+export type LibrusTimetableSlotEntry = LibrusTimetableEvent[]
+
+
+export interface APILibrusSubject {
+    Id: number
+    Name: string
+    Short: string
+    Url: string
+}
+
+export interface APILibrusTeacher {
+    Id: number
+    FirstName: string
+    LastName: string
+    Url: string
+}
+
+export interface LibrusTimetableEvent {
+    Lesson: NumberIDResource
+    Classroom?: NumberIDResource
+    DateFrom: string
+    DateTo: string
+    LessonNo: string
+    TimetableEntry: NumberIDResource
+    DayNo: string
+    Subject: APILibrusSubject
+    Teacher: APILibrusTeacher
+    IsSubstitutionClass: boolean
+    IsCanceled: boolean
+    SubstitutionNote: string | null
+    HourFrom: string
+    HourTo: string
+    VirtualClass?: NumberIDResource
+    VirtualClassName?: string
+    Class?: NumberIDResource
+
+    OrgDate?: string
+    OrgLessonNo?: string
+    OrgLesson?: NumberIDResource
+    OrgSubject?: NumberIDResource
+    OrgTeacher?: NumberIDResource
+    OrgHourFrom?: string
+    OrgHourTo?: string
+}

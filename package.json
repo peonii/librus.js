@@ -1,6 +1,6 @@
 {
   "name": "librus",
-  "version": "1.0.2",
+  "version": "1.0.9",
   "description": "TypeScript API for fetching data from the Librus school management solution",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -20,7 +20,8 @@
     "fetch-cookie": "^2.1.0"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "sploy": "tsup && npm publish"
   },
   "directories": {
     "lib": "src"
