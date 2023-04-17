@@ -9,7 +9,7 @@ export default function createTsupConfig({
 	target = 'es2022',
 	skipNodeModulesBundle = true,
 	clean = true,
-	shims = true,
+	shims = false,
 	minify = false,
 	splitting = false,
 	keepNames = true,

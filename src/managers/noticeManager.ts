@@ -1,38 +1,44 @@
-import { LibrusClient } from "../client/LibrusClient"
-import { APISchoolNotice, APISchoolNotices, BaseFetchOptions, SchoolNotice } from "../types/api-types"
-import { BaseManager } from "./baseManager"
+import { z } from "zod";
+import { LibrusClient } from "../client/LibrusClient";
+import { BaseManager } from "./BaseManager";
+import { SchoolNoticePartial, SchoolNoticeSchema, SchoolNotice } from "../structures/SchoolNotice";
 
+/**
+ * Notice manager class
+ */
 export class NoticeManager extends BaseManager {
-    cache: Map<string, SchoolNotice>
-    constructor(client: LibrusClient) {
-        super(client)
-        this.cache = new Map<string, SchoolNotice>()
+  cache: Map<string, SchoolNoticePartial> = new Map<string, SchoolNoticePartial>();
+
+  constructor(client: LibrusClient) {
+    super(client);
+  }
+
+  async fetchAll(): Promise<SchoolNotice[]> {
+    const noticesSchema = z.object({
+      SchoolNotices: z.array(SchoolNoticeSchema)
+    });
+
+    const notices = await this.client.request(noticesSchema, "https://api.librus.pl/3.0/SchoolNotices/");
+
+    return notices.SchoolNotices.map(notice => {
+      this.cache.set(notice.Id, notice);
+      return new SchoolNotice(notice, this.client);
+    });
+  }
+
+  async fetch(id: string): Promise<SchoolNotice> {
+    const noticeSchema = z.object({
+      SchoolNotice: SchoolNoticeSchema
+    });
+
+    if (this.cache.has(id)) {
+      return new SchoolNotice(this.cache.get(id)!, this.client);
     }
 
-    async fetchAll(): Promise<SchoolNotice[]> {
-        const response = await this.client.request('https://api.librus.pl/3.0/SchoolNotices/') as Response
-        if (!response.ok) {
-            throw new Error('something went wrong lmao')
-        }
-        const responseJSON = (await response.json() as APISchoolNotices).SchoolNotices
-        return responseJSON
-    }
-    
-    async fetch(id: string, options: BaseFetchOptions = {}): Promise<SchoolNotice> {
-        options = this.resetFetchOptions(options)
+    const notice = await this.client.request(noticeSchema, `https://api.librus.pl/3.0/SchoolNotices/${id}`);
 
-        if (!options.force && this.cache.has(id)) {
-            const cached = this.cache.get(id)
-            if (cached) return cached
-            else throw new Error('how did you even get here')
-        }
+    this.cache.set(id, notice.SchoolNotice);
 
-        const res = await this.client.request(`https://api.librus.pl/3.0/SchoolNotices/${id}`) as Response
-
-        if (!res.ok) throw new Error('okay no')
-
-        const noticeJSON = (await res.json() as APISchoolNotice).SchoolNotice
-        if (options.cache) this.cache.set(id, noticeJSON) // cache the notice
-        return noticeJSON
-    }
+    return new SchoolNotice(notice.SchoolNotice, this.client);
+  }
 }

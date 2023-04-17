@@ -4,3 +4,5 @@ dist
 .DS_Store
 src/.DS_Store
 yarn-error.log
+__tests__/.DS_Store
+__tests__

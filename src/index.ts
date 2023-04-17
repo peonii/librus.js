@@ -1,3 +1,4 @@
-export * from './client/index'
-export * from './managers/index'
-export * from './types/api-types'
+export { LibrusClient } from "./client/LibrusClient";
+import * as Structures from "./structures";
+
+export { Structures };
